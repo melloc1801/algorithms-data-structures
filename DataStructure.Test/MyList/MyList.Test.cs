@@ -40,6 +40,11 @@ public class MyListTests
             ml.Add(value);
         }
         
+        foreach (var i in ml)
+        {
+            Console.WriteLine(i);
+        } 
+        
         CollectionAssert.AreEqual(values, ml);
     }
 
@@ -98,7 +103,7 @@ public class MyListTests
 
         if (index < 0 || index >= ml.Count)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => _ = ml[index]);
+            Assert.Throws<IndexOutOfRangeException>(() => _ = ml[index]);
             return;
         }
         var actual = ml[index];
@@ -117,7 +122,7 @@ public class MyListTests
 
         if (index < 0 || index >= ml.Count)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ml[index] = value);
+            Assert.Throws<IndexOutOfRangeException>(() => ml[index] = value);
             return;
         }
         ml[index] = value;
@@ -166,6 +171,25 @@ public class MyListTests
 
         Assert.That(actual, Is.EqualTo(expected));
     }
+    
+    [TestCase(new int [] {}, -1, null)]
+    [TestCase(new int [] {}, 0, null)]
+    [TestCase(new [] {-1}, 0, new int[] {})]
+    [TestCase(new [] {-1, 0, 1, 0}, 1, new [] {-1, 1, 0})]
+    [TestCase(new [] {-1, 0, 1, 0}, 3, new [] {-1, 0, 1})]
+    public void RemoveAt(int[] values, int index, int[] expected)
+    {
+        var ml = new MyList<int>(values);
+
+        if (index < 0 || index >= ml.Count)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => ml.RemoveAt(index));
+            return;
+        }
+        ml.RemoveAt(index);
+        
+        CollectionAssert.AreEqual(expected, ml);
+    }
 
     [TestCase(new int[] {}, 2, new int[] {}, false)]
     [TestCase(new [] {-1}, 2, new [] {-1}, false)]
@@ -195,25 +219,6 @@ public class MyListTests
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
         CollectionAssert.AreEqual(expectedValues, ml);
-    }
-
-    [TestCase(new int [] {}, -1, null)]
-    [TestCase(new int [] {}, 0, null)]
-    [TestCase(new [] {-1}, 0, new int[] {})]
-    [TestCase(new [] {-1, 0, 1, 0}, 1, new [] {-1, 1, 0})]
-    [TestCase(new [] {-1, 0, 1, 0}, 3, new [] {-1, 0, 1})]
-    public void RemoveAt(int[] values, int index, int[] expected)
-    {
-        var ml = new MyList<int>(values);
-
-        if (index < 0 || index >= ml.Count)
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ml.RemoveAt(index));
-            return;
-        }
-        ml.RemoveAt(index);
-        
-        CollectionAssert.AreEqual(expected, ml);
     }
 
     [TestCase(new int [] {})]
