@@ -1,15 +1,15 @@
-﻿using DataStructures.MyList;
+﻿using DataStructures;
 using NUnit.Framework;
 
-namespace DataStructure.Test.MyList;
+namespace DataStructure.Test;
 
 [TestFixture]
-public class MyListTests
+public class MyListGenericTests
 {
     [TestCase(-1)]
     [TestCase(0)]
     [TestCase(1)]
-    public void InitializeWithCapacity(int capacity)
+    public void InitializeWithCapacity_Should_CreateEmptyMyListWithCapacity(int capacity)
     {
         if (capacity < 0)
         {
@@ -31,7 +31,7 @@ public class MyListTests
     [TestCase(new [] {1})]
     [TestCase(new [] {-1, 0})]
     [TestCase(new [] {-1, 0, 1})]
-    public void AddItem(int[] values)
+    public void Add_Should_AddOneItemToTheEnd(int[] values)
     {
         var ml = new MyList<int>();
         
@@ -53,7 +53,7 @@ public class MyListTests
     [TestCase(new [] {1})]
     [TestCase(new [] {-1, 0})]
     [TestCase(new [] {-1, 0, 1})]
-    public void InitializeWithArray(int[] values)
+    public void InitializeWithArray_Should_CreateMyListBasedOnArray(int[] values)
     {
         var ml = new MyList<int>(values);
         
@@ -64,7 +64,7 @@ public class MyListTests
     [TestCase(new[] {-1}, 1)]
     [TestCase(new[] {-1, 0}, 2)]
     [TestCase(new[] {-1, 0, 1}, 3)]
-    public void IsCountCorrect(int[] values, int expected)
+    public void IsCountCorrect_Should_ReturnAmountOfActualElements(int[] values, int expected)
     {
         var ml = new MyList<int>(values);
 
@@ -80,7 +80,7 @@ public class MyListTests
     [TestCase(new[] {-1}, new [] {0}, 2)]
     [TestCase(new[] {-1, 0}, new [] {1}, 4)]
     [TestCase(new[] {-1, 0, 1, 2, 3}, new [] {1}, 10)]
-    public void IsCapacityCorrect(int[] initialValues, int[] values, int expected)
+    public void IsCapacityCorrect_Should_Return_ListLengthIncludeBuffer(int[] initialValues, int[] values, int expected)
     {
         var ml = new MyList<int>(initialValues);
         foreach (var value in values)
@@ -97,7 +97,7 @@ public class MyListTests
     [TestCase(new [] {-1}, 0, -1)]
     [TestCase(new [] {-1, 0}, 1, 0)]
     [TestCase(new [] {-1, 0}, 2, null)]
-    public void Getter(int[] values, int index, int? expected)
+    public void Getter_Should_ReturnItemByIndex(int[] values, int index, int? expected)
     {
         var ml = new MyList<int>(values);
 
@@ -116,7 +116,7 @@ public class MyListTests
     [TestCase(new [] {-1, 0}, 1, 1, new [] {-1, 1})]
     [TestCase(new [] {-1, 0}, 2, 2, null)]
     [TestCase(new [] {-1, 0, 1}, 2, 1, new [] {-1, 0, 1})]
-    public void Setter(int[] values, int index, int value, int[]? expected)
+    public void Setter_Should_SetItemByIndex(int[] values, int index, int value, int[]? expected)
     {
         var ml = new MyList<int>(values);
 
@@ -134,7 +134,7 @@ public class MyListTests
     [TestCase(new [] {-1, 0}, -1, -1)]
     [TestCase(new [] {-1, 0, 1}, 2, 0)]
     [TestCase(new [] { 0, 1, 1 }, 1, 1)]
-    public void FindItem(int[] values, int valueToBeFound, int expected)
+    public void Find_Should_ReturnFirstMatchedItem(int[] values, int valueToBeFound, int expected)
     {
         var ml = new MyList<int>(values);
         
@@ -149,7 +149,7 @@ public class MyListTests
     [TestCase(new [] { 1, 1 }, 2, new int[] {})]
     [TestCase(new [] { 1, 1, 3 }, 1, new [] {1, 1})]
     [TestCase(new [] { 1, 2, 2, 3 }, 2, new [] {2, 2})]
-    public void FindAllItems(int[] values, int valueToBeFound, int[] expected)
+    public void Find_Should_ReturnAllMathcedItems(int[] values, int valueToBeFound, int[] expected)
     {
         var ml = new MyList<int>(values);
 
@@ -163,7 +163,7 @@ public class MyListTests
     [TestCase(new [] { -1, 0 }, -1, 0)]
     [TestCase(new [] { -1, 0 }, 0, 1)]
     [TestCase(new [] { -1, 0, 0 }, 0, 1)]
-    public void FindIndex(int[] values, int valueToBeFound, int expected)
+    public void Find_Should_ReturnFirstMatchedElementIndex(int[] values, int valueToBeFound, int expected)
     {
         var ml = new MyList<int>(values);
 
@@ -177,7 +177,7 @@ public class MyListTests
     [TestCase(new [] {-1}, 0, new int[] {})]
     [TestCase(new [] {-1, 0, 1, 0}, 1, new [] {-1, 1, 0})]
     [TestCase(new [] {-1, 0, 1, 0}, 3, new [] {-1, 0, 1})]
-    public void RemoveAt(int[] values, int index, int[] expected)
+    public void RemoveAt_Should_RemoveOneItemByIndex(int[] values, int index, int[] expected)
     {
         var ml = new MyList<int>(values);
 
@@ -196,7 +196,7 @@ public class MyListTests
     [TestCase(new [] {-1}, -1, new int[] {}, true)]
     [TestCase(new [] {-1, 0, 0}, 0, new [] {-1, 0}, true)]
     [TestCase(new [] {-1, 0, 0, 1, 1}, 0, new [] {-1, 0, 1, 1}, true)]
-    public void Remove(int[] values, int valueToBeRemoved, int[] expectedValues, bool expectedResult)
+    public void Remove_Should_RemoveFirstMatchedItem(int[] values, int valueToBeRemoved, int[] expectedValues, bool expectedResult)
     {
         var ml = new MyList<int>(values);
 
@@ -211,7 +211,7 @@ public class MyListTests
     [TestCase(new [] {-1}, -1, new int[] {}, 1)]
     [TestCase(new [] {-1, 0, 0}, 0, new [] {-1}, 2)]
     [TestCase(new [] {-1, 0, 0, 1, 1}, 0, new [] {-1, 1, 1}, 2)]
-    public void RemoveAll(int[] values, int valueToBeRemoved, int[] expectedValues, int expectedResult)
+    public void RemoveAll_Should_RemoveAllMatchedItems(int[] values, int valueToBeRemoved, int[] expectedValues, int expectedResult)
     {
         var ml = new MyList<int>(values);
 
@@ -225,7 +225,7 @@ public class MyListTests
     [TestCase(new [] {-1})]
     [TestCase(new [] {-1, 0})]
     [TestCase(new [] {-1, 0, 1, 2, 3})]
-    public void MyListToArray(int[] values)
+    public void ToArray_Should_ReturnArrayBasedOnMyList(int[] values)
     {
         var ml = new MyList<int>(values);
 

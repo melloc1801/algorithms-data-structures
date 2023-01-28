@@ -1,4 +1,4 @@
-﻿namespace DataStructures.MyList;
+﻿namespace DataStructures;
 
 public interface IMyList<T> : IEnumerable<T>
 {

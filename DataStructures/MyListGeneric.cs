@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace DataStructures.MyList;
+namespace DataStructures;
 
 public class MyList<T>: IMyList<T>
 {
