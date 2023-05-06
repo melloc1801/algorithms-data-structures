@@ -1,7 +1,7 @@
 ﻿using DataStructures;
 using NUnit.Framework;
 
-namespace DataStructure.Test;
+namespace DataStructures.Test;
 
 public class MyLinkedListTests
 {
