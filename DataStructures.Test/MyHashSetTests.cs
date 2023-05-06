@@ -202,4 +202,21 @@ public class MyHashSetTests
             CollectionAssert.AreEqual(textCase.ExpectedValues, myHashSet, "NN");
         }
     }
+
+    [TestCase(new int[] {})]
+    [TestCase(new [] {-1})]
+    [TestCase(new [] {-1, -1})]
+    [TestCase(new [] {-1, 0, 1, 1})]
+    public void Clear_Should_RemoveAllItems(int[] initialValues)
+    {
+        // Arrange
+        var myHashSet = new MyHashSet<int>(initialValues);
+        var expected = new int[] { };
+
+        // Act
+        myHashSet.Clear();
+
+        // Assert
+        CollectionAssert.AreEqual(expected, myHashSet);
+    }
 }
