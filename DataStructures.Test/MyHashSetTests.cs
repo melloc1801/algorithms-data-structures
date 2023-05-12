@@ -227,14 +227,14 @@ public class MyHashSetTests
     public void Remove_Should_DeleteItemFromSet(int[] initialValues, int valueToBeRemoved, int[] expected, bool expectedResult)
     {
         // Arrange
-        var hs = new MyHashSet<int>(initialValues);
+        var myHashSet = new MyHashSet<int>(initialValues);
 
         // Act
-        var actualResult = hs.Remove(valueToBeRemoved);
+        var actualResult = myHashSet.Remove(valueToBeRemoved);
 
         // Assert
         Assert.That(actualResult, Is.EqualTo(expectedResult));
-        CollectionAssert.AreEqual(expected, hs);
+        CollectionAssert.AreEqual(expected, myHashSet);
     }
 
     private class StringIgnoreTestCase
