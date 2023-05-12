@@ -1,41 +1,22 @@
-using DataStructures;
 using Helpers;
 using NUnit.Framework;
 
 namespace DataStructures.Test;
 
-class StringIgnoreTestCase
-{
-    public string[] InitialValues { get; }
-    public string[] ValuesToInsert { get; }
-    public string[] ExpectedValues { get; }
-
-    public StringIgnoreTestCase(
-        string[] initialValues, 
-        string[] valuesToInsert,
-        string[] expectedValues
-    )
-    {
-        InitialValues = initialValues;
-        ValuesToInsert = valuesToInsert;
-        ExpectedValues = expectedValues;
-    }
-}
-
 [TestFixture]
 public class MyHashSetTests
 {
-    private List<StringIgnoreTestCase> _stringIgnoreAddTestCases = new()
+    private StringIgnoreTestCase[] _stringIgnoreAddTestCases = new []
     {
-        new (new string[] { }, new string[] { }, new string[] { }),
-        new (new[] {""}, new[] {""}, new[] {""}),
-        new (new[] {"a"}, new[] {"a"}, new[] {"a"}),
-        new (new[] {"a"}, new[] {"A"}, new[] {"a"}),
-        new (new[] {"A"}, new[] {"a"}, new[] {"A"}),
-        new (new[] {"1HA"}, new[] {"1ha"}, new[] {"1HA"}),
-        new (new[] {"1HA", "1ha", "AbC"}, new string[] {}, new[] {"1HA", "AbC"}),
-        new (new[] {"1HA", "1ha", "AbC"}, new [] {"aBc"}, new[] {"1HA", "AbC"}),
-        new (new string[] {}, new [] {"1HA", "1ha", "AbC"}, new[] {"1HA", "AbC"}),
+        new StringIgnoreTestCase(new string[] { }, new string[] { }, new string[] { }),
+        new StringIgnoreTestCase(new[] {""}, new[] {""}, new[] {""}),
+        new StringIgnoreTestCase(new[] {"a"}, new[] {"a"}, new[] {"a"}),
+        new StringIgnoreTestCase(new[] {"a"}, new[] {"A"}, new[] {"a"}),
+        new StringIgnoreTestCase(new[] {"A"}, new[] {"a"}, new[] {"A"}),
+        new StringIgnoreTestCase(new[] {"1HA"}, new[] {"1ha"}, new[] {"1HA"}),
+        new StringIgnoreTestCase(new[] {"1HA", "1ha", "AbC"}, new string[] {}, new[] {"1HA", "AbC"}),
+        new StringIgnoreTestCase(new[] {"1HA", "1ha", "AbC"}, new [] {"aBc"}, new[] {"1HA", "AbC"}),
+        new StringIgnoreTestCase(new string[] {}, new [] {"1HA", "1ha", "AbC"}, new[] {"1HA", "AbC"}),
     };
 
     [Test]
@@ -218,5 +199,59 @@ public class MyHashSetTests
 
         // Assert
         CollectionAssert.AreEqual(expected, myHashSet);
+    }
+
+    [TestCase(new int[] {}, 1, false)]
+    [TestCase(new [] {0}, 1, false)]
+    [TestCase(new [] {0}, 0, true)]
+    [TestCase(new [] {-1, -1, 0}, -1, true)]
+    [TestCase(new [] {-1, -1, 0}, 0, true)]
+    public void Contains_Should_CheckWhetherTheElementExists(int[] initialValues, int value, bool expected)
+    {
+        // Arrange
+        var myHashSet = new MyHashSet<int>(initialValues);
+
+        // Act
+        var actual = myHashSet.Contains(value);
+
+        // Assert
+        Assert.That(actual, Is.EqualTo(expected));
+    }
+
+    [TestCase(new int[] {}, 0, new int[] {}, false)]
+    [TestCase(new [] {-1}, 0, new [] {-1}, false)]
+    [TestCase(new [] {-1}, -1, new int[] {}, true)]
+    [TestCase(new [] {0}, 0, new int[] {}, true)]
+    [TestCase(new [] {0, 0}, 0, new int[] {}, true)]
+    [TestCase(new [] {0, 1}, 1, new [] {0}, true)]
+    public void Remove_Should_DeleteItemFromSet(int[] initialValues, int valueToBeRemoved, int[] expected, bool expectedResult)
+    {
+        // Arrange
+        var hs = new MyHashSet<int>(initialValues);
+
+        // Act
+        var actualResult = hs.Remove(valueToBeRemoved);
+
+        // Assert
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
+        CollectionAssert.AreEqual(expected, hs);
+    }
+
+    private class StringIgnoreTestCase
+    {
+        public string[] InitialValues { get; }
+        public string[] ValuesToInsert { get; }
+        public string[] ExpectedValues { get; }
+    
+        public StringIgnoreTestCase(
+            string[] initialValues, 
+            string[] valuesToInsert,
+            string[] expectedValues
+        )
+        {
+            InitialValues = initialValues;
+            ValuesToInsert = valuesToInsert;
+            ExpectedValues = expectedValues;
+        }
     }
 }
