@@ -41,7 +41,7 @@ public class MyHashSetTests
     [TestCase(new[] {0}, new[] {0})]
     [TestCase(new[] {0, 0}, new[] {0})]
     [TestCase(new[] {1}, new[] {1})]
-    [TestCase(new[] {1, 1}, new[] {1, 1})]
+    [TestCase(new[] {1, 1}, new[] {1})]
     public void CtorWithCollection_Should_CreateMyHashsetBasedOnIntCollection(int[] initialValues, int[] expected)
     {
         // Act
@@ -104,14 +104,14 @@ public class MyHashSetTests
     }
 
     [Test]
-    public void CtorWithCollectionAndComparer_Should_Throws_NullArgumentException()
+    public void CtorWithCollectionAndComparer_Should_Throws_ArgumentNullException()
     {
         // Arrange
         string[] collection = null;
         var comparer = new StringCaseIgnoreComparer();
         
         // Act
-        Assert.Throws<ArgumentOutOfRangeException>(() => new MyHashSet<string>(collection, comparer));
+        Assert.Throws<ArgumentNullException>(() => new MyHashSet<string>(collection, comparer));
     }
 
     [Test]
@@ -133,7 +133,7 @@ public class MyHashSetTests
     public void Add_Should_ThrowsArgumentNullException()
     {
         // Arrange
-        var myHashSet = new HashSet<string>();
+        var myHashSet = new MyHashSet<string>();
         
         // Act
         Assert.Throws<ArgumentNullException>(() => myHashSet.Add(null));
@@ -180,7 +180,7 @@ public class MyHashSetTests
             }
             
             // Assert
-            CollectionAssert.AreEqual(textCase.ExpectedValues, myHashSet, "NN");
+            CollectionAssert.AreEqual(textCase.ExpectedValues, myHashSet);
         }
     }
 
