@@ -1,59 +1,170 @@
 using System.Collections;
-using System.Runtime.Serialization;
 
 namespace DataStructures;
-
 public class MyHashSet<T>: IMyHashSetGeneric<T>
 {
-    private int[] _orderStorage;
+    private const int BaseCapacity = 16;
+    private T[] _orderStorage;
     private MyLinkedList<T>[] _storage;
     private int _capacity; 
     public IEqualityComparer<T> Comparer { get; }
 
-    public int Count { get; }
+    public int Count { get; private set; }
 
     public MyHashSet()
     {
-        throw new NotImplementedException();
+        _capacity = BaseCapacity;
+        _orderStorage = new T[_capacity];
+        _storage = new MyLinkedList<T>[_capacity];
+        Count = 0;
+        Comparer = EqualityComparer<T>.Default;
     }
-    public MyHashSet(IEnumerable<T> collection)
+    public MyHashSet(IEnumerable<T> collection): this()
     {
-        throw new NotImplementedException();
+        if (collection == null)
+        {
+            throw new ArgumentNullException();
+        }
+        var coll = collection.ToArray();
+        _capacity = coll.Length > BaseCapacity ? coll.Length : BaseCapacity;
+        
+        foreach (var item in coll)
+        {
+            Add(item);
+        }
     }
-    public MyHashSet(IEqualityComparer<T> comparer)
+    public MyHashSet(IEqualityComparer<T> comparer): this()
     {
-        throw new NotImplementedException();
+        if (comparer == null)
+        {
+            Comparer = EqualityComparer<T>.Default;
+            return;
+        }
+        Comparer = comparer;
     }
     public MyHashSet(int capacity)
     {
-        throw new NotImplementedException();
+        if (capacity < 0)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+        
+        _capacity = capacity;
+        _orderStorage = new T[_capacity];
+        _storage = new MyLinkedList<T>[_capacity];
+        Count = 0;
+        Comparer = EqualityComparer<T>.Default;
     }
     public MyHashSet(IEnumerable<T> collection, IEqualityComparer<T> comparer)
     {
-        throw new NotImplementedException();
+        if (collection == null)
+        {
+            throw new ArgumentNullException("Collection is null");
+        }
+        var coll = collection.ToArray(); 
+        _capacity = coll.Length > 0 ? coll.Length : BaseCapacity;
+        _orderStorage = new T[_capacity];
+        _storage = new MyLinkedList<T>[_capacity];
+
+        if (comparer == null)
+        {
+            Comparer = EqualityComparer<T>.Default;
+        }
+        else
+        {
+            Comparer = comparer;
+        }
+        
+        Count = 0;
+
+        foreach (var item in coll)
+        {
+            Add(item);
+        }
     }
-    public MyHashSet(int capacity, IEqualityComparer<T> comparer)
+    public MyHashSet(int capacity, IEqualityComparer<T> comparer): this(capacity)
     {
-        throw new NotImplementedException();
+        if (comparer == null)
+        {
+            Comparer = EqualityComparer<T>.Default;
+            return;
+        }
+        Comparer = comparer;
     }
     public bool Add(T item)
     {
-        throw new NotImplementedException();
+        if (item == null)
+        {
+            throw new ArgumentNullException();
+        } 
+        
+        var index = GetIndexByHashcode(item);
+        if (_storage[index] != null && _storage[index].Any(node => Comparer.Equals(node.Data, item)))
+        {
+            return false;
+        }
+        
+        if (Count == _capacity)
+        {
+            _capacity *= 2;
+            var newStorage = new MyLinkedList<T>[_capacity];
+            var newOrderStorage = new T[_capacity];
+
+            foreach (var linkedList in _storage)
+            {
+                foreach (var node in linkedList)
+                {
+                    var ind = GetIndexByHashcode(node.Data);
+
+                    if (newStorage[ind] == null)
+                    {
+                        newStorage[ind] = new MyLinkedList<T>();
+                    }
+                    newStorage[ind].AddLast(new MyLinkedListNode<T>(node.Data));
+                }
+            }
+
+            for (int i = 0; i < _orderStorage.Length; i++)
+            {
+                newOrderStorage[i] = _orderStorage[i];
+            }
+
+            _storage = newStorage;
+            _orderStorage = newOrderStorage;
+        }
+        if (_storage[index] == null)
+        {
+            _storage[index] = new MyLinkedList<T>();
+        }
+        _orderStorage[Count] = item;
+        _storage[index].AddLast(new MyLinkedListNode<T>(item));
+        Count++;
+        
+        return true;
     }
 
     void ICollection<T>.Add(T item)
     {
-        throw new NotImplementedException();
+        Add(item);
     }
     
     public void Clear()
     {
-        throw new NotImplementedException();
+        _capacity = 0;
+        _orderStorage = Array.Empty<T>();
+        _storage = new MyLinkedList<T>[] { };
     }
 
     public bool Contains(T item)
     {
-        throw new NotImplementedException();
+        var index = GetIndexByHashcode(item);
+        var bucket = _storage[index];
+        if (bucket == null)
+        {
+            return false;
+        }
+
+        return bucket.Any(node => Comparer.Equals(node.Data, item));
     }
 
     public bool Remove(T item)
@@ -120,7 +231,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
 
     public IEnumerator<T> GetEnumerator()
     {
-        throw new NotImplementedException();
+        return new Enumerator(this);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -128,9 +239,47 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         return GetEnumerator();
     }
 
+    class Enumerator: IEnumerator<T>
+    {
+        private int _position = -1;
+        private MyHashSet<T> _currentInstance;
+
+        public Enumerator(MyHashSet<T> currentInstance)
+        {
+            _currentInstance = currentInstance;
+        }
+        
+        public bool MoveNext()
+        {
+            if (_position + 1 == _currentInstance.Count)
+            {
+                return false;
+            }
+            if (_currentInstance._orderStorage.Length > 0)
+            {
+                _position++;
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public T Current => _currentInstance._orderStorage[_position];
+
+        object IEnumerator.Current => Current;
+        
+        public void Reset()
+        { }
+        
+        public void Dispose()
+        {
+        }
+    }
+
     private int GetIndexByHashcode(T value)
     {
-        var hashcode = value.GetHashCode();
+        var hashcode = Comparer.GetHashCode(value) & 0x7FFFFFFF;
         return hashcode % _capacity;
     }
 }
