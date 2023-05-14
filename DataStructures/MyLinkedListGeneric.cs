@@ -84,6 +84,11 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         return null;
     }
 
+    public void Remove(T item)
+    {
+        throw new NotImplementedException();
+    }
+
     public void RemoveFirst()
     {
         if (First == null)
@@ -109,6 +114,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             Count--;
         }
         var en = GetEnumerator();
+        en.MoveNext();
         for (int i = 0; i < Count - 1; i++)
         {
             if (i == Count - 2)

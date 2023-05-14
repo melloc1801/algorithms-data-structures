@@ -15,6 +15,7 @@ public interface IMyLinkedList<T>: IEnumerable<IMyLinkedListNode<T>>
     void Clear();
 
     IMyLinkedListNode<T> Find(T value);
+    void Remove(T item);
 
     void RemoveFirst();
     
