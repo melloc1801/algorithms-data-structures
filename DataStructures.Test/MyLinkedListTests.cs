@@ -1,7 +1,7 @@
 ﻿using DataStructures;
 using NUnit.Framework;
 
-namespace DataStructure.Test;
+namespace DataStructures.Test;
 
 public class MyLinkedListTests
 {
@@ -143,6 +143,37 @@ public class MyLinkedListTests
         
         Assert.That(actual, Is.EqualTo(expected));
     }
+
+    [Test]
+    public void Remove_Should_Throws_ArgumentNullException()
+    {
+        // Arrange
+        var mll = new MyLinkedList<string>(new [] {"a", "b"});
+        string valueToInsert = null;
+
+        // Act
+        Assert.Throws<ArgumentNullException>(() => mll.Remove(valueToInsert));
+    }
+
+    [TestCase(new int[] {}, 0, new int[] {})]
+    [TestCase(new [] {-1}, 0, new [] {-1})]
+    [TestCase(new [] {0}, 0, new int[] {})]
+    [TestCase(new [] {-1, 0}, 0, new [] {-1})]
+    [TestCase(new [] {-1, 0}, -1, new [] {0})]
+    [TestCase(new [] {-1, 0}, 1, new [] {-1, 0})]
+    [TestCase(new [] {-1, 0, 1}, 1, new [] {-1, 0})]
+    [TestCase(new [] {-1, 0, 1, 1}, 1, new [] {-1, 0, 1})]
+    public void Remove_Should_DeleteFirstMatchedItem(int[] initialValues, int valueToRemove, int[] expectedValues)
+    {
+        // Arrange
+        var mll = new MyLinkedList<int>(initialValues);
+        
+        // Act
+        mll.Remove(valueToRemove);
+
+        // Assert
+        CollectionAssert.AreEqual(expectedValues, mll.ToArray());
+    } 
 
     [Test]
     public void RemoveFirst_Should_ThrowsInvalidOperationException()

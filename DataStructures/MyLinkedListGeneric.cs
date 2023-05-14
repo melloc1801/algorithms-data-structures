@@ -84,6 +84,43 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         return null;
     }
 
+    public void Remove(T item)
+    {
+        if (Count == 0)
+        {
+            return;
+        }
+        if (item == null)
+        {
+            throw new ArgumentNullException();
+        }
+        
+        if (First.Data.Equals(item))
+        {
+            RemoveFirst();
+            return;
+        }
+        var en = GetEnumerator();
+        while (en.MoveNext())
+        {
+            var current = en.Current;
+            var next = current.Next;
+            if (next != null && next.Data.Equals(item))
+            {
+                var afterNext = next.Next;
+                if (afterNext == null)
+                {
+                    RemoveLast();
+                    return;
+                }
+                Count--;
+                current.Next = afterNext;
+                next.Next = null;
+                return;
+            }
+        }
+    }
+
     public void RemoveFirst()
     {
         if (First == null)
@@ -109,6 +146,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             Count--;
         }
         var en = GetEnumerator();
+        en.MoveNext();
         for (int i = 0; i < Count - 1; i++)
         {
             if (i == Count - 2)
