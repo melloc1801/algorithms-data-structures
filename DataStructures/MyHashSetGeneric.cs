@@ -4,7 +4,7 @@ namespace DataStructures;
 public class MyHashSet<T>: IMyHashSetGeneric<T>
 {
     private const int BaseCapacity = 16;
-    private T[] _orderStorage;
+    private List<T> _orderStorage;
     private MyLinkedList<T>[] _storage;
     private int _capacity; 
     public IEqualityComparer<T> Comparer { get; }
@@ -14,7 +14,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
     public MyHashSet()
     {
         _capacity = BaseCapacity;
-        _orderStorage = new T[_capacity];
+        _orderStorage = new List<T>();
         _storage = new MyLinkedList<T>[_capacity];
         Count = 0;
         Comparer = EqualityComparer<T>.Default;
@@ -50,7 +50,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         }
         
         _capacity = capacity;
-        _orderStorage = new T[_capacity];
+        _orderStorage = new List<T>();
         _storage = new MyLinkedList<T>[_capacity];
         Count = 0;
         Comparer = EqualityComparer<T>.Default;
@@ -63,7 +63,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         }
         var coll = collection.ToArray(); 
         _capacity = coll.Length > 0 ? coll.Length : BaseCapacity;
-        _orderStorage = new T[_capacity];
+        _orderStorage = new List<T>();
         _storage = new MyLinkedList<T>[_capacity];
 
         if (comparer == null)
@@ -123,20 +123,13 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
                     newStorage[ind].AddLast(new MyLinkedListNode<T>(node.Data));
                 }
             }
-
-            for (int i = 0; i < _orderStorage.Length; i++)
-            {
-                newOrderStorage[i] = _orderStorage[i];
-            }
-
             _storage = newStorage;
-            _orderStorage = newOrderStorage;
         }
         if (_storage[index] == null)
         {
             _storage[index] = new MyLinkedList<T>();
         }
-        _orderStorage[Count] = item;
+        _orderStorage.Add(item);
         _storage[index].AddLast(new MyLinkedListNode<T>(item));
         Count++;
         
@@ -151,7 +144,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
     public void Clear()
     {
         _capacity = 0;
-        _orderStorage = Array.Empty<T>();
+        _orderStorage.Clear();
         _storage = new MyLinkedList<T>[] { };
     }
 
@@ -169,7 +162,22 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
 
     public bool Remove(T item)
     {
-        throw new NotImplementedException();
+        var index = GetIndexByHashcode(item);
+        var bucket = _storage[index];
+        if (bucket == null)
+        {
+            return false;
+        }
+
+        var lengthBefore = bucket.Count;
+        bucket.Remove(item);
+        _orderStorage.Remove(item);
+        var isRemoved = lengthBefore > bucket.Count;
+        if (isRemoved)
+        {
+            Count--;
+        }
+        return isRemoved;
     }
     
     public void ExceptWith(IEnumerable<T> other)
@@ -255,7 +263,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
             {
                 return false;
             }
-            if (_currentInstance._orderStorage.Length > 0)
+            if (_currentInstance._orderStorage.Count > 0)
             {
                 _position++;
                 return true;
