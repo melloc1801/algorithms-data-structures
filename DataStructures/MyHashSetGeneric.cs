@@ -4,7 +4,7 @@ namespace DataStructures;
 public class MyHashSet<T>: IMyHashSetGeneric<T>
 {
     private const int BaseCapacity = 16;
-    private List<T> _orderStorage;
+    private MyLinkedList<T> _orderStorage;
     private MyLinkedList<T>[] _storage;
     private int _capacity; 
     public IEqualityComparer<T> Comparer { get; }
@@ -14,7 +14,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
     public MyHashSet()
     {
         _capacity = BaseCapacity;
-        _orderStorage = new List<T>();
+        _orderStorage = new MyLinkedList<T>();
         _storage = new MyLinkedList<T>[_capacity];
         Count = 0;
         Comparer = EqualityComparer<T>.Default;
@@ -50,7 +50,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         }
         
         _capacity = capacity;
-        _orderStorage = new List<T>();
+        _orderStorage = new MyLinkedList<T>();
         _storage = new MyLinkedList<T>[_capacity];
         Count = 0;
         Comparer = EqualityComparer<T>.Default;
@@ -63,7 +63,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         }
         var coll = collection.ToArray(); 
         _capacity = coll.Length > 0 ? coll.Length : BaseCapacity;
-        _orderStorage = new List<T>();
+        _orderStorage = new MyLinkedList<T>();
         _storage = new MyLinkedList<T>[_capacity];
 
         if (comparer == null)
@@ -99,7 +99,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         } 
         
         var index = GetIndexByHashcode(item);
-        if (_storage[index] != null && _storage[index].Any(node => Comparer.Equals(node.Data, item)))
+        if (_storage[index] != null && _storage[index].First(nodeItem => Comparer.Equals(nodeItem, item)) != null)
         {
             return false;
         }
@@ -108,19 +108,18 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         {
             _capacity *= 2;
             var newStorage = new MyLinkedList<T>[_capacity];
-            var newOrderStorage = new T[_capacity];
 
             foreach (var linkedList in _storage)
             {
                 foreach (var node in linkedList)
                 {
-                    var ind = GetIndexByHashcode(node.Data);
+                    var ind = GetIndexByHashcode(node);
 
                     if (newStorage[ind] == null)
                     {
                         newStorage[ind] = new MyLinkedList<T>();
                     }
-                    newStorage[ind].AddLast(new MyLinkedListNode<T>(node.Data));
+                    newStorage[ind].AddLast(new MyLinkedListNode<T>(node));
                 }
             }
             _storage = newStorage;
@@ -129,7 +128,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         {
             _storage[index] = new MyLinkedList<T>();
         }
-        _orderStorage.Add(item);
+        _orderStorage.AddLast(new MyLinkedListNode<T>(item));
         _storage[index].AddLast(new MyLinkedListNode<T>(item));
         Count++;
         
@@ -157,7 +156,7 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
             return false;
         }
 
-        return bucket.Any(node => Comparer.Equals(node.Data, item));
+        return bucket.Find(item) != null;
     }
 
     public bool Remove(T item)
@@ -239,50 +238,15 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
 
     public IEnumerator<T> GetEnumerator()
     {
-        return new Enumerator(this);
+        foreach (var i in _orderStorage)
+        {
+            yield return i;
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
-    }
-
-    class Enumerator: IEnumerator<T>
-    {
-        private int _position = -1;
-        private MyHashSet<T> _currentInstance;
-
-        public Enumerator(MyHashSet<T> currentInstance)
-        {
-            _currentInstance = currentInstance;
-        }
-        
-        public bool MoveNext()
-        {
-            if (_position + 1 == _currentInstance.Count)
-            {
-                return false;
-            }
-            if (_currentInstance._orderStorage.Count > 0)
-            {
-                _position++;
-                return true;
-            }
-
-            return false;
-        }
-
-
-        public T Current => _currentInstance._orderStorage[_position];
-
-        object IEnumerator.Current => Current;
-        
-        public void Reset()
-        { }
-        
-        public void Dispose()
-        {
-        }
     }
 
     private int GetIndexByHashcode(T value)

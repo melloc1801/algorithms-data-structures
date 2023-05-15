@@ -72,16 +72,31 @@ public class MyLinkedList<T>: IMyLinkedList<T>
 
     public IMyLinkedListNode<T> Find(T value)
     {
-        var en = GetEnumerator();
-
-        while (en.MoveNext())
+        if (Count == 0)
         {
-            if (en.Current.Data.Equals(value))
-            {
-                return en.Current;
-            }
+            return null;
+        }
+        if (First.Data.Equals(value))
+        {
+            return First;
         }
 
+        if (Last.Data.Equals(value))
+        {
+            return Last;
+        }
+        
+        var current = First;
+        while (current.Next != null)
+        {
+            if (current.Data.Equals(value))
+            {
+                return current;
+            }
+
+            current = current.Next;
+        }
+        
         return null;
     }
 
@@ -107,21 +122,19 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             return;
         }
 
-        
-        var en = GetEnumerator();
-        while (en.MoveNext())
+
+        var current = First;
+        while (current.Next != null)
         {
-            var current = en.Current;
             if (current.Data.Equals(item))
             {
                 var prev = current.Prev;
                 var next = current.Next;
-
-                prev.Next = next;
+                prev.Next = current.Next;
                 next.Prev = prev;
-                Count--;
-                return;
             }
+
+            current = current.Next;
         }
     }
 
@@ -176,14 +189,14 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         var index = 0;
         while (en.MoveNext())
         {
-            result[index] = en.Current.Data;
+            result[index] = en.Current;
             index++;
         }
 
         return result;
     }
     
-    public IEnumerator<IMyLinkedListNode<T>> GetEnumerator()
+    public IEnumerator<T> GetEnumerator()
     {
         return new MyLinkedListEnumerator<T>(First);
     }
@@ -192,7 +205,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         return GetEnumerator();
     }
 
-    class MyLinkedListEnumerator<T>: IEnumerator<IMyLinkedListNode<T>>
+    class MyLinkedListEnumerator<T>: IEnumerator<T>
     {
         private IMyLinkedListNode<T> _currentNode;
         private IMyLinkedListNode<T> _firstNode;
@@ -228,7 +241,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             _currentNode = null;
         }
 
-        public IMyLinkedListNode<T> Current => _currentNode;
+        public T Current => _currentNode.Data;
 
         object IEnumerator.Current => Current;
 
