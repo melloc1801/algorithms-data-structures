@@ -58,6 +58,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             return;
         }
 
+        node.Prev = Last;
         Last.Next = node;
         Last = node;
     }
@@ -94,28 +95,31 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         {
             throw new ArgumentNullException();
         }
-        
-        if (First.Data.Equals(item))
+        if (item.Equals(First.Data))
         {
             RemoveFirst();
             return;
         }
+
+        if (item.Equals(Last.Data))
+        {
+            RemoveLast();
+            return;
+        }
+
+        
         var en = GetEnumerator();
         while (en.MoveNext())
         {
             var current = en.Current;
-            var next = current.Next;
-            if (next != null && next.Data.Equals(item))
+            if (current.Data.Equals(item))
             {
-                var afterNext = next.Next;
-                if (afterNext == null)
-                {
-                    RemoveLast();
-                    return;
-                }
+                var prev = current.Prev;
+                var next = current.Next;
+
+                prev.Next = next;
+                next.Prev = prev;
                 Count--;
-                current.Next = afterNext;
-                next.Next = null;
                 return;
             }
         }
@@ -127,8 +131,19 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         {
             throw new InvalidOperationException();
         }
+        
+        if (Count == 1)
+        {
+            First = null;
+            Last = null;
+            Count--;
+            return;
+        }
 
-        First = First.Next;
+        var newFirst = First.Next;
+        newFirst.Prev = null;
+
+        First = newFirst;
         Count--;
     }
 
@@ -144,21 +159,13 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             First = null;
             Last = null;
             Count--;
+            return;
         }
-        var en = GetEnumerator();
-        en.MoveNext();
-        for (int i = 0; i < Count - 1; i++)
-        {
-            if (i == Count - 2)
-            {
-                en.Current.Next = null;
-                Last = en.Current;
-                Count--;
-                return;
-            }
-            
-            en.MoveNext();
-        }
+
+        var newLast = Last.Prev;
+        newLast.Next = null;
+        Last = newLast;
+        Count--;
     }
 
     public T[] ToArray()
