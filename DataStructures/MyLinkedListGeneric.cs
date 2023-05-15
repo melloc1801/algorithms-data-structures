@@ -58,6 +58,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             return;
         }
 
+        node.Prev = Last;
         Last.Next = node;
         Last = node;
     }
@@ -71,16 +72,31 @@ public class MyLinkedList<T>: IMyLinkedList<T>
 
     public IMyLinkedListNode<T> Find(T value)
     {
-        var en = GetEnumerator();
-
-        while (en.MoveNext())
+        if (Count == 0)
         {
-            if (en.Current.Data.Equals(value))
-            {
-                return en.Current;
-            }
+            return null;
+        }
+        if (First.Data.Equals(value))
+        {
+            return First;
         }
 
+        if (Last.Data.Equals(value))
+        {
+            return Last;
+        }
+        
+        var current = First;
+        while (current.Next != null)
+        {
+            if (current.Data.Equals(value))
+            {
+                return current;
+            }
+
+            current = current.Next;
+        }
+        
         return null;
     }
 
@@ -94,30 +110,31 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         {
             throw new ArgumentNullException();
         }
-        
-        if (First.Data.Equals(item))
+        if (item.Equals(First.Data))
         {
             RemoveFirst();
             return;
         }
-        var en = GetEnumerator();
-        while (en.MoveNext())
+
+        if (item.Equals(Last.Data))
         {
-            var current = en.Current;
-            var next = current.Next;
-            if (next != null && next.Data.Equals(item))
+            RemoveLast();
+            return;
+        }
+
+
+        var current = First;
+        while (current.Next != null)
+        {
+            if (current.Data.Equals(item))
             {
-                var afterNext = next.Next;
-                if (afterNext == null)
-                {
-                    RemoveLast();
-                    return;
-                }
-                Count--;
-                current.Next = afterNext;
-                next.Next = null;
-                return;
+                var prev = current.Prev;
+                var next = current.Next;
+                prev.Next = current.Next;
+                next.Prev = prev;
             }
+
+            current = current.Next;
         }
     }
 
@@ -127,8 +144,19 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         {
             throw new InvalidOperationException();
         }
+        
+        if (Count == 1)
+        {
+            First = null;
+            Last = null;
+            Count--;
+            return;
+        }
 
-        First = First.Next;
+        var newFirst = First.Next;
+        newFirst.Prev = null;
+
+        First = newFirst;
         Count--;
     }
 
@@ -144,21 +172,13 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             First = null;
             Last = null;
             Count--;
+            return;
         }
-        var en = GetEnumerator();
-        en.MoveNext();
-        for (int i = 0; i < Count - 1; i++)
-        {
-            if (i == Count - 2)
-            {
-                en.Current.Next = null;
-                Last = en.Current;
-                Count--;
-                return;
-            }
-            
-            en.MoveNext();
-        }
+
+        var newLast = Last.Prev;
+        newLast.Next = null;
+        Last = newLast;
+        Count--;
     }
 
     public T[] ToArray()
@@ -169,14 +189,14 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         var index = 0;
         while (en.MoveNext())
         {
-            result[index] = en.Current.Data;
+            result[index] = en.Current;
             index++;
         }
 
         return result;
     }
     
-    public IEnumerator<IMyLinkedListNode<T>> GetEnumerator()
+    public IEnumerator<T> GetEnumerator()
     {
         return new MyLinkedListEnumerator<T>(First);
     }
@@ -185,7 +205,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
         return GetEnumerator();
     }
 
-    class MyLinkedListEnumerator<T>: IEnumerator<IMyLinkedListNode<T>>
+    class MyLinkedListEnumerator<T>: IEnumerator<T>
     {
         private IMyLinkedListNode<T> _currentNode;
         private IMyLinkedListNode<T> _firstNode;
@@ -221,7 +241,7 @@ public class MyLinkedList<T>: IMyLinkedList<T>
             _currentNode = null;
         }
 
-        public IMyLinkedListNode<T> Current => _currentNode;
+        public T Current => _currentNode.Data;
 
         object IEnumerator.Current => Current;
 

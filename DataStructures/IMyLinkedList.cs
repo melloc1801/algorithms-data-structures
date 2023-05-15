@@ -1,6 +1,6 @@
 ﻿namespace DataStructures;
 
-public interface IMyLinkedList<T>: IEnumerable<IMyLinkedListNode<T>>
+public interface IMyLinkedList<T>: IEnumerable<T>
 {
     int Count { get; }
 
