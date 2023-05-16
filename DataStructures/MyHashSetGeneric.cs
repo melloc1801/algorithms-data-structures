@@ -103,8 +103,9 @@ public class MyHashSet<T>: IMyHashSetGeneric<T>
         {
             return false;
         }
-        
-        if (Count == _capacity)
+
+        var loadFactor = Count / _capacity;
+        if (loadFactor > 0.7)
         {
             _capacity *= 2;
             var newStorage = new MyLinkedList<T>[_capacity];
