@@ -1,5 +1,15 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6525bdb9_002D6858_002D41b6_002D86fb_002Dbc039ec2c7ea/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="StrTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=09506e4e_002D90ae_002D4418_002Dad24_002D8a4066919b40/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tmp" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Tmp&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0dbf8559_002D94ce_002D48d6_002Db7f9_002D00207b7a29f9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tmp #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Tmp&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6525bdb9_002D6858_002D41b6_002D86fb_002Dbc039ec2c7ea/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="StrTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructure.Test.MyHashSetTests.CtorWithCollection_Should_CreateMyHashsetBasedOnIntCollection&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::1D439522-5894-4B25-ABAF-F70E30CD6FE9::net7.0::Helpers.Test.Tests.Test1&lt;/TestId&gt;
@@ -7,5 +17,50 @@
     &lt;TestId&gt;NUnit3x::1D439522-5894-4B25-ABAF-F70E30CD6FE9::net7.0::Helpers.Test.StringCaseIgnoreComparerTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructure.Test.MyHashSetTests.Tmp&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructure.Test.MyHashSetTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Tmp&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cb7a01e9_002D1a00_002D4c37_002D864b_002D2b2fd16af838/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Session" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;And&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructure.Test.MyHashSetTests.CtorWithCollection_Should_CreateMyHashsetBasedOnIntCollection&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::1D439522-5894-4B25-ABAF-F70E30CD6FE9::net7.0::Helpers.Test.Tests.Test1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::1D439522-5894-4B25-ABAF-F70E30CD6FE9::net7.0::Helpers.Test.StringCaseIgnoreComparerTests.Equals_Should_CompareStringIgnoreCase&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::1D439522-5894-4B25-ABAF-F70E30CD6FE9::net7.0::Helpers.Test.StringCaseIgnoreComparerTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructure.Test.MyHashSetTests.Tmp&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructure.Test.MyHashSetTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Tmp&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/And&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e5d2a007_002Dbbe8_002D4d39_002D8d31_002D9c7ccbb56d57/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CtorWithCollection_Should_CreateMyHashsetBasedOnIntCollection" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;And&gt;
+      &lt;TestAncestor&gt;
+        &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashSetTests&lt;/TestId&gt;
+        &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyLinkedListTests&lt;/TestId&gt;
+        &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyLinkedListNodeTests.PrevProperty_Should_SetAndReturnNextNode&lt;/TestId&gt;
+      &lt;/TestAncestor&gt;
+      &lt;Not&gt;
+        &lt;TestAncestor&gt;
+          &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashSetTests.AddWithCaseIgnore_Should_AddOneItemToTheEnd&lt;/TestId&gt;
+        &lt;/TestAncestor&gt;
+      &lt;/Not&gt;
+    &lt;/And&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Tmp&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Add_Should_Throw_ArgumentException&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Add_Should_InsertPairInCollection&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.AddKeyPair_Should_InsertPairInCollection&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Getter_Should_Throw_KeyNotFoundException&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Getter_Should_Throw_ArgumentOutOfRangeException&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Setter_Should_Throw_ArgumentOutOfRangeException&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3C5BBBF3-2F37-4169-95B8-C6659023E43D::net7.0::DataStructures.Test.MyHashMapTests.Setter_Should_SetItemByKey&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
